@@ -1,0 +1,7 @@
+DuAn-HeThongDaoTao + BASE Sprint 1
+- Git remote preserved: origin -> https://github.com/dtc245200676-rgb/DuAn-HeThongDaoTao.git
+- Current branch preserved: main
+- Working tree intentionally NOT committed
+- Python compileall backend/app backend/tests backend/scripts: PASS
+- Backend base test via `python -m pytest -q`: PASS (1 passed)
+- Frontend npm dependency installation in packaging environment: TIMEOUT, so build must be re-run on user's machine
