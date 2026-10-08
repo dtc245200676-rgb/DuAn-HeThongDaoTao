@@ -50,4 +50,4 @@ def logout(context:AuthContext=Depends(get_current_context),db:Session=Depends(g
 @router.get("/me")
 def me(context:AuthContext=Depends(get_current_context)):
     u=context.user
-    return {"id":u.id,"full_name":u.full_name,"email":u.email,"phone":u.phone,"roles":context.role_slugs,"permissions":sorted(context.permissions),"must_change_password":u.must_change_password}
+    return {"id":u.id,"full_name":u.full_name,"email":u.email,"phone":u.phone,"date_of_birth":u.date_of_birth,"address":u.address,"avatar_url":f"/{u.avatar_path}" if u.avatar_path else None,"avatar_thumbnail_url":f"/{u.avatar_thumbnail_path}" if u.avatar_thumbnail_path else None,"roles":context.role_slugs,"permissions":sorted(context.permissions),"must_change_password":u.must_change_password}

@@ -7,13 +7,20 @@ import AppLayout from './layouts/AppLayout'
 import AccessDeniedPage from './pages/AccessDeniedPage'
 import ActivatePage from './pages/ActivatePage'
 import ChangePasswordPage from './pages/ChangePasswordPage'
+import ConsultationPage from './pages/ConsultationPage'
 import DashboardPage from './pages/DashboardPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
+import ImportUsersPage from './pages/ImportUsersPage'
+import LeadAssignmentPage from './pages/LeadAssignmentPage'
+import LeadCrudPage from './pages/LeadCrudPage'
 import LoginPage from './pages/LoginPage'
+import NotFoundPage from './pages/NotFoundPage'
+import ProfilePage from './pages/ProfilePage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
 import RoleManagementPage from './pages/RoleManagementPage'
+import TrainingManagementPage from './pages/TrainingManagementPage'
 import UserManagementPage from './pages/UserManagementPage'
 export default function App(){return <ConfigProvider theme={{token:{colorPrimary:'#1677ff',borderRadius:8}}}><BrowserRouter><AuthProvider><Routes>
-<Route path="/login" element={<LoginPage/>}/><Route path="/forgot-password" element={<ForgotPasswordPage/>}/><Route path="/reset-password" element={<ResetPasswordPage/>}/><Route path="/activate" element={<ActivatePage/>}/>
-<Route element={<ProtectedRoute/>}><Route element={<AppLayout/>}><Route path="/dashboard" element={<DashboardPage/>}/><Route path="/change-password" element={<ChangePasswordPage/>}/><Route path="/403" element={<AccessDeniedPage/>}/><Route element={<ProtectedRoute permission="users.view"/>}><Route path="/admin/users" element={<UserManagementPage/>}/></Route><Route element={<ProtectedRoute permission="roles.view"/>}><Route path="/admin/roles" element={<RoleManagementPage/>}/></Route></Route></Route>
-<Route path="/" element={<Navigate to="/dashboard" replace/>}/><Route path="*" element={<Navigate to="/dashboard" replace/>}/></Routes></AuthProvider></BrowserRouter></ConfigProvider>}
+<Route path="/login" element={<LoginPage/>}/><Route path="/forgot-password" element={<ForgotPasswordPage/>}/><Route path="/reset-password" element={<ResetPasswordPage/>}/><Route path="/activate" element={<ActivatePage/>}/><Route path="/consultation" element={<ConsultationPage/>}/>
+<Route element={<ProtectedRoute/>}><Route element={<AppLayout/>}><Route path="/dashboard" element={<DashboardPage/>}/><Route path="/profile" element={<ProfilePage/>}/><Route path="/change-password" element={<ChangePasswordPage/>}/><Route path="/403" element={<AccessDeniedPage/>}/><Route element={<ProtectedRoute permission="users.view"/>}><Route path="/admin/users" element={<UserManagementPage/>}/></Route><Route element={<ProtectedRoute permission="users.import"/>}><Route path="/admin/import-users" element={<ImportUsersPage/>}/></Route><Route element={<ProtectedRoute permission="roles.view"/>}><Route path="/admin/roles" element={<RoleManagementPage/>}/></Route><Route element={<ProtectedRoute permission="training.view"/>}><Route path="/training" element={<TrainingManagementPage/>}/></Route><Route element={<ProtectedRoute permission="leads.view"/>}><Route path="/admissions/leads" element={<LeadCrudPage/>}/><Route path="/admissions/lead-assignment" element={<LeadAssignmentPage/>}/></Route></Route></Route>
+<Route path="/" element={<Navigate to="/dashboard" replace/>}/><Route path="*" element={<NotFoundPage/>}/></Routes></AuthProvider></BrowserRouter></ConfigProvider>}
