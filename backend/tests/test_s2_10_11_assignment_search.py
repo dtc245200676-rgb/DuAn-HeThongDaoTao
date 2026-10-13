@@ -1,0 +1,6 @@
+from app.db.database import SessionLocal
+from app.models.lead import Lead
+def login(client,email,password):
+    r=client.post('/api/auth/login',json={'email':email,'password':password});return {'Authorization':f"Bearer {r.json()['access_token']}"}
+def test_assignment_scope_search_filter(client,user_factory,admin_headers):
+    a=user_factory('a@example.com','Password123','admissions',full_name='Advisor A');b=user_factory('b@example.com','Password123','admissions',full_name='Advisor B');db=SessionLocal();l1=Lead(full_name='Nguyễn An',phone='0901111111',source='website',status='new');l2=Lead(full_name='Trần Bình',phone='0912222222',source='facebook',status='contacted');db.add_all([l1,l2]);db.commit();id1,id2=l1.id,l2.id;db.close();r=client.post('/api/leads/assign',headers=admin_headers,json={'lead_ids':[id1],'assignee_user_id':a.id});assert r.status_code==200;ha=login(client,'a@example.com','Password123');hb=login(client,'b@example.com','Password123');assert client.get('/api/leads',headers=ha).json()['total']==1;assert client.get('/api/leads',headers=hb).json()['total']==0;assert client.get('/api/leads?q=Nguyễn&source=website',headers=ha).json()['total']==1;assert len(client.get(f'/api/leads/{id1}/assignment-history',headers=ha).json())==1;assert client.get(f'/api/leads/{id1}/assignment-history',headers=hb).status_code==403
