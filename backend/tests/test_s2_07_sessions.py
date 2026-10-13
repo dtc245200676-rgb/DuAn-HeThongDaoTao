@@ -1,0 +1,4 @@
+from app.db.database import SessionLocal
+from app.models.training import Subject
+def test_sessions_limit_and_clone(client,admin_headers):
+    db=SessionLocal();a=Subject(code='A',name='A',session_count=2);b=Subject(code='B',name='B',session_count=2);db.add_all([a,b]);db.commit();a_id,b_id=a.id,b.id;db.close();assert client.post(f'/api/training/subjects/{a_id}/sessions',headers=admin_headers,json={'sequence':1,'topic':'T1'}).status_code==200;assert client.post(f'/api/training/subjects/{a_id}/sessions',headers=admin_headers,json={'sequence':2,'topic':'T2'}).status_code==200;assert client.post(f'/api/training/subjects/{a_id}/sessions',headers=admin_headers,json={'sequence':3,'topic':'T3'}).status_code in (409,422);r=client.post(f'/api/training/subjects/{b_id}/sessions/clone',headers=admin_headers,json={'source_subject_id':a_id});assert r.status_code==200 and r.json()['count']==2

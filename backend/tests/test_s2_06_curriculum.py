@@ -1,0 +1,4 @@
+from app.db.database import SessionLocal
+from app.models.training import Subject,TrainingProgram
+def test_curriculum_order_and_prerequisite(client,admin_headers):
+    db=SessionLocal();p=TrainingProgram(code='P1',name='P1');a=Subject(code='A',name='A',session_count=1);b=Subject(code='B',name='B',session_count=1);db.add_all([p,a,b]);db.commit();pid,a_id,b_id=p.id,a.id,b.id;db.close();assert client.post(f'/api/training/programs/{pid}/subjects',headers=admin_headers,json={'subject_id':a_id}).status_code==200;assert client.post(f'/api/training/programs/{pid}/subjects',headers=admin_headers,json={'subject_id':b_id}).status_code==200;assert client.put(f'/api/training/programs/{pid}/subjects/{b_id}/prerequisite',headers=admin_headers,json={'prerequisite_subject_id':a_id}).status_code==200;assert client.put(f'/api/training/programs/{pid}/subjects/reorder',headers=admin_headers,json={'subject_ids':[b_id,a_id]}).status_code==422
