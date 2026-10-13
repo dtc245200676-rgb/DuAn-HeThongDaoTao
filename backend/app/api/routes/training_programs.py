@@ -24,6 +24,6 @@ def update_program(program_id:int,data:TrainingProgramUpdate,_:AuthContext=Depen
 def delete_program(program_id:int,_:AuthContext=Depends(require_permission("training.edit")),db:Session=Depends(get_db)):
     p=db.get(TrainingProgram,program_id)
     if not p: raise HTTPException(404,"Không tìm thấy chương trình.")
-    running=db.scalar(select(func.count(TrainingClass.id)).where(TrainingClass.program_id==program_id,TrainingClass.status.in_(["active","running"]))) or 0
+    running=db.scalar(select(func.count(TrainingClass.id)).where(TrainingClass.program_id==program_id,TrainingClass.status.in_(["active","running","preparing","studying"]))) or 0
     if running: raise HTTPException(409,"Chương trình đang có lớp chạy, không được xóa; hãy chuyển trạng thái sang ngừng áp dụng.")
     db.delete(p);db.commit();return {"message":"Đã xóa chương trình."}

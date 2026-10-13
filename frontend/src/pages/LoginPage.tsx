@@ -23,7 +23,8 @@ export default function LoginPage() {
     setSubmitting(true)
     setError('')
     try {
-      const result = await login(values.email, values.password)
+      const cleanEmail = values.email.replace(/[\u200B-\u200D\uFEFF]/g, '').trim().toLowerCase()
+      const result = await login(cleanEmail, values.password)
       message.success(result.message || 'Đăng nhập thành công')
       if (result.must_change_password) navigate('/change-password', { replace: true })
       else navigate(result.roles.includes('system_admin') ? '/admin/users' : '/dashboard', { replace: true })
@@ -45,7 +46,12 @@ export default function LoginPage() {
         {notice && <Alert type="info" showIcon message={notice} style={{ marginBottom: 16 }} />}
         {error && <Alert type="error" showIcon message={error} style={{ marginBottom: 16 }} />}
         <Form layout="vertical" onFinish={onFinish} size="large">
-          <Form.Item name="email" label="Email" rules={[{ required: true, message: 'Vui lòng nhập email' }, { type: 'email', message: 'Email không hợp lệ' }]}>
+          <Form.Item
+            name="email"
+            label="Email"
+            normalize={(value) => value?.replace(/[\u200B-\u200D\uFEFF]/g, '').trim().toLowerCase()}
+            rules={[{ required: true, message: 'Vui lòng nhập email' }, { type: 'email', message: 'Email không hợp lệ' }]}
+          >
             <Input prefix={<MailOutlined />} placeholder="name@example.com" autoComplete="email" />
           </Form.Item>
           <Form.Item name="password" label="Mật khẩu" rules={[{ required: true, message: 'Vui lòng nhập mật khẩu' }]}>

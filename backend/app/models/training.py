@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, Numeric, String, Text, UniqueConstraint
+from sqlalchemy import Column, Date, DateTime, ForeignKey, Integer, Numeric, String, Text, UniqueConstraint
 from sqlalchemy.orm import relationship
 
 from app.db.database import Base
@@ -20,7 +20,7 @@ class TrainingProgram(Base):
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     subjects = relationship("ProgramSubject", back_populates="program", cascade="all, delete-orphan")
-    classes = relationship("TrainingClass", back_populates="program", cascade="all, delete-orphan")
+    classes = relationship("TrainingClass", back_populates="program")
 
 
 class Subject(Base):
@@ -76,7 +76,17 @@ class TrainingClass(Base):
 
     id = Column(Integer, primary_key=True)
     program_id = Column(Integer, ForeignKey("training_programs.id", ondelete="RESTRICT"), nullable=False, index=True)
+    # name is kept for Sprint 2 compatibility; Sprint 3 uses code as the official class code.
     name = Column(String(150), nullable=False)
-    status = Column(String(20), nullable=False, default="planned", index=True)
+    code = Column(String(50), nullable=True, unique=True, index=True)
+    expected_start_date = Column(Date, nullable=True, index=True)
+    max_students = Column(Integer, nullable=False, default=30)
+    delivery_mode = Column(String(20), nullable=False, default="offline")  # offline | online | hybrid
+    status = Column(String(20), nullable=False, default="preparing", index=True)
+    room_id = Column(Integer, ForeignKey("training_rooms.id", ondelete="SET NULL"), nullable=True, index=True)
+    completed_sessions = Column(Integer, nullable=False, default=0)
+    created_by_user_id = Column(Integer, ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
+    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
+    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     program = relationship("TrainingProgram", back_populates="classes")
