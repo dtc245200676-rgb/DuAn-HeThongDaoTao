@@ -54,6 +54,15 @@ ROLE_DEFINITIONS = {
             "tuition.view",
         ],
     },
+    "teaching_assistant": {
+        "name": "Trợ giảng",
+        "description": "Hỗ trợ giảng dạy và theo dõi các lớp được phân công.",
+        "permissions": [
+            "dashboard.view",
+            "training.view",
+            "grades.view",
+        ],
+    },
     "accountant": {
         "name": "Kế toán",
         "description": "Quản lý học phí; không sửa điểm.",
