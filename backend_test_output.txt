@@ -1,0 +1,30 @@
+..................                                                       [100%]
+=============================== warnings summary ===============================
+tests/test_s2_01_import.py: 8 warnings
+tests/test_s2_02_profile.py: 4 warnings
+tests/test_s2_03_08_avatar_consultation.py: 8 warnings
+tests/test_s2_04_programs.py: 5 warnings
+tests/test_s2_05_subjects.py: 7 warnings
+tests/test_s2_06_curriculum.py: 9 warnings
+tests/test_s2_07_sessions.py: 7 warnings
+tests/test_s2_09_lead_crud.py: 10 warnings
+tests/test_s2_10_11_assignment_search.py: 15 warnings
+tests/test_sprint1_all.py: 55 warnings
+  /opt/pyvenv/lib/python3.13/site-packages/sqlalchemy/sql/schema.py:3623: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    return util.wrap_callable(lambda ctx: fn(), fn)  # type: ignore
+
+tests/test_s2_01_import.py: 4 warnings
+tests/test_s2_02_profile.py: 3 warnings
+tests/test_s2_03_08_avatar_consultation.py: 2 warnings
+tests/test_s2_04_programs.py: 4 warnings
+tests/test_s2_05_subjects.py: 4 warnings
+tests/test_s2_06_curriculum.py: 5 warnings
+tests/test_s2_07_sessions.py: 5 warnings
+tests/test_s2_09_lead_crud.py: 6 warnings
+tests/test_s2_10_11_assignment_search.py: 9 warnings
+tests/test_sprint1_all.py: 53 warnings
+  /mnt/data/Sprint2_COMPLETE_TEST_READY/backend/app/core/security.py:29: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    return datetime.utcnow()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+18 passed, 223 warnings in 5.16s
