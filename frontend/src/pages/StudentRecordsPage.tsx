@@ -1,2 +1,15 @@
-import { Card } from 'antd'
-export default function StudentRecordsPage(){return <Card title="S3-04 · Hồ sơ học viên">Placeholder BASE — Người 4 sẽ hoàn thiện tra cứu và cập nhật hồ sơ học viên.</Card>}
+import { Button, Card, Descriptions, Drawer, Form, Input, Space, Table, Tag, message } from 'antd'
+import { useEffect, useState } from 'react'
+import { api, apiErrorMessage } from '../api/client'
+import type { StudentProfileItem } from '../types'
+
+export default function StudentRecordsPage(){
+ const [items,setItems]=useState<StudentProfileItem[]>([]);const [q,setQ]=useState('');const [selected,setSelected]=useState<StudentProfileItem>();const [editOpen,setEditOpen]=useState(false);const [form]=Form.useForm()
+ const load=async()=>setItems((await api.get('/api/s3/students',{params:{q,page_size:100}})).data.items)
+ useEffect(()=>{load().catch(()=>message.error('Không tải được hồ sơ học viên.'))},[])
+ const edit=(x:StudentProfileItem)=>{setSelected(x);form.setFieldsValue(x);setEditOpen(true)}
+ const save=async(values:any)=>{if(!selected)return;try{const data=(await api.put(`/api/s3/students/${selected.id}`,values)).data;setSelected(data);message.success('Đã cập nhật hồ sơ.');setEditOpen(false);await load()}catch(e){message.error(apiErrorMessage(e))}}
+ return <Card title="S3-04 · Hồ sơ học viên"><Space style={{marginBottom:16}}><Input.Search value={q} onChange={e=>setQ(e.target.value)} onSearch={()=>void load()} placeholder="Mã học viên, tên hoặc SĐT" style={{width:320}}/><Button onClick={()=>void load()}>Tìm</Button></Space><Table rowKey="id" dataSource={items} columns={[{title:'Mã HV',dataIndex:'student_code'},{title:'Họ tên',dataIndex:'full_name'},{title:'SĐT',dataIndex:'phone'},{title:'Lớp đang học',dataIndex:'current_classes',render:(v:string[])=>v.map(x=><Tag key={x} color="blue">{x}</Tag>)},{title:'Thao tác',render:(_,r)=><Space><Button onClick={()=>setSelected(r)}>Xem</Button><Button onClick={()=>edit(r)}>Sửa</Button></Space>}]} />
+ <Drawer title="Chi tiết học viên" width={600} open={!!selected&&!editOpen} onClose={()=>setSelected(undefined)}><Descriptions column={1} bordered items={selected?[{key:'1',label:'Mã học viên',children:selected.student_code},{key:'2',label:'Họ tên',children:selected.full_name},{key:'3',label:'Email',children:selected.email},{key:'4',label:'SĐT',children:selected.phone||'-'},{key:'5',label:'Trình độ đầu vào',children:selected.entry_level||'-'},{key:'6',label:'Lớp đang học',children:selected.current_classes.join(', ')||'-'},{key:'7',label:'Lịch sử lớp',children:selected.class_history.join(', ')||'-'},{key:'8',label:'Ghi chú',children:selected.notes||'-'}]:[]}/></Drawer>
+ <Drawer title="Sửa hồ sơ" width={520} open={editOpen} onClose={()=>setEditOpen(false)}><Form form={form} layout="vertical" onFinish={save}><Form.Item name="full_name" label="Họ tên" rules={[{required:true}]}><Input/></Form.Item><Form.Item name="phone" label="SĐT"><Input/></Form.Item><Form.Item name="date_of_birth" label="Ngày sinh"><Input placeholder="YYYY-MM-DD"/></Form.Item><Form.Item name="address" label="Địa chỉ"><Input/></Form.Item><Form.Item name="entry_level" label="Trình độ đầu vào"><Input/></Form.Item><Form.Item name="notes" label="Ghi chú"><Input.TextArea/></Form.Item><Button type="primary" htmlType="submit">Lưu</Button></Form></Drawer></Card>
+}
