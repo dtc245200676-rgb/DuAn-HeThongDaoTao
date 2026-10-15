@@ -1,16 +1,13 @@
-# BASE Sprint 1 cho nhóm 9 người
+# Sprint 3 — chia 9 thành viên
 
-Đây là code nền chung. BASE được thiết kế có các router/page placeholder để các gói nhiệm vụ có thể merge theo bất kỳ thứ tự nào mà project vẫn import/build được.
+- Người 1: S3-01 — Bảng phễu lead theo trạng thái
+- Người 2: S3-02 — Nhật ký chăm sóc + lịch nhắc gọi lại
+- Người 3: S3-03 — Chuyển lead đã chốt thành hồ sơ học viên
+- Người 4: S3-04 — Quản lý hồ sơ học viên
+- Người 5: S3-05 — Mở lớp từ chương trình đào tạo
+- Người 6: S3-06 — Ghi danh học viên vào lớp
+- Người 7: S3-07 — Danh sách lớp + bộ lọc + chỉ số nhanh
+- Người 8: S3-08 — Phân công giảng viên/trợ giảng theo môn
+- Người 9: S3-09 — Quản lý phòng học và liên kết phòng trực tuyến
 
-## Đưa BASE lên GitHub lần đầu
-```bash
-git init
-git add .
-git commit -m "chore: initialize Sprint 1 base"
-git branch -M main
-git remote add origin <URL_REPO>
-git push -u origin main
-git checkout -b develop
-git push -u origin develop
-```
-Sau đó mỗi thành viên clone repo, checkout develop, tạo branch của mình và copy thư mục `overlay` trong gói được giao vào repo.
+Mỗi thành viên dùng đúng overlay của mình. Không copy overlay của người khác.
