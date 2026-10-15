@@ -88,3 +88,44 @@ export interface LeadItem {
   note?: string | null
   created_at: string
 }
+
+export interface StudentProfileItem {
+  id: number
+  student_code: string
+  user_id: number
+  full_name: string
+  email: string
+  phone?: string | null
+  date_of_birth?: string | null
+  address?: string | null
+  entry_level?: string | null
+  notes?: string | null
+  current_classes: string[]
+  class_history: string[]
+}
+
+export interface TrainingClassItem {
+  id: number
+  code: string
+  program_id: number
+  program_name: string
+  expected_start_date?: string | null
+  max_students: number
+  delivery_mode: string
+  status: string
+  current_students: number
+  completed_sessions: number
+  total_sessions: number
+  room_id?: number | null
+  room_name?: string | null
+}
+
+export interface TrainingRoomItem {
+  id: number
+  code: string
+  name: string
+  room_type: 'physical' | 'online'
+  capacity?: number | null
+  online_url?: string | null
+  is_active: boolean
+}

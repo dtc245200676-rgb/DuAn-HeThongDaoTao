@@ -16,6 +16,7 @@ def create_lead(data:LeadCreate,context:AuthContext=Depends(require_permission("
 def update_lead(lead_id:int,data:LeadUpdate,context:AuthContext=Depends(require_permission("leads.edit")),db:Session=Depends(get_db)):
     lead=db.scalar(select(Lead).where(Lead.id==lead_id).options(selectinload(Lead.interested_program),selectinload(Lead.assignee)))
     if not lead:raise HTTPException(404,"Không tìm thấy lead.")
+    if lead.status == "enrolled": raise HTTPException(409,"Lead đã nhập học nên không được sửa.")
     if admissions_only(context) and lead.assignee_user_id!=context.user.id:raise HTTPException(403,"Bạn chỉ được cập nhật lead được phân công cho mình.")
     payload=data.model_dump(exclude_unset=True);duplicate=None
     if "phone" in payload:payload["phone"]=normalize_phone(payload["phone"]);duplicate=duplicate_warning(db,payload["phone"],lead_id)
@@ -27,4 +28,5 @@ def delete_lead(lead_id:int,context:AuthContext=Depends(get_current_context),db:
     if "training_manager" not in context.role_slugs:raise HTTPException(403,"Chỉ Quản lý đào tạo được xóa lead.")
     lead=db.get(Lead,lead_id)
     if not lead:raise HTTPException(404,"Không tìm thấy lead.")
+    if lead.status == "enrolled": raise HTTPException(409,"Lead đã nhập học nên không được xóa.")
     db.delete(lead);db.commit();return {"message":"Đã xóa lead."}
