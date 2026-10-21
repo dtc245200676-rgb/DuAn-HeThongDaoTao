@@ -1,2 +1,14 @@
-import { Card, Empty } from 'antd'
-export default function Page(){return <Card title="S4-01 · Sinh thời khóa biểu tự động"><Empty description="BASE Sprint 4: thành viên phụ trách sẽ thay file này bằng overlay."/></Card>}
+import { Button, Card, DatePicker, Form, InputNumber, Select, Space, Table, TimePicker, Alert, message } from 'antd'
+import { useEffect, useState } from 'react'
+import { api, apiErrorMessage } from '../api/client'
+
+const weekdayOptions=[{value:0,label:'Thứ 2'},{value:1,label:'Thứ 3'},{value:2,label:'Thứ 4'},{value:3,label:'Thứ 5'},{value:4,label:'Thứ 6'},{value:5,label:'Thứ 7'},{value:6,label:'Chủ nhật'}]
+export default function TimetableGeneratePage(){
+ const [classes,setClasses]=useState<any[]>([]),[preview,setPreview]=useState<any[]>([]),[last,setLast]=useState<any>(null),[form]=Form.useForm()
+ useEffect(()=>{api.get('/api/s4/timetable/classes').then(r=>setClasses(r.data)).catch(()=>undefined)},[])
+ const payload=(v:any)=>({class_id:v.class_id,start_date:v.start_date.format('YYYY-MM-DD'),weekdays:v.weekdays,start_time:v.start_time.format('HH:mm:ss'),duration_minutes:v.duration_minutes})
+ const doPreview=async(v:any)=>{try{const p=payload(v);const r=await api.post('/api/s4/timetable/preview',p);setPreview(r.data.sessions);setLast(p)}catch(e){message.error(apiErrorMessage(e))}}
+ const save=async(force_override=false)=>{if(!last)return;try{await api.post('/api/s4/timetable/confirm',{...last,force_override});message.success('Đã lưu thời khóa biểu.');setPreview([])}catch(e:any){if(e?.response?.status===409){message.warning('Có xung đột. Quản lý đào tạo có thể xác nhận ghi đè sau khi kiểm tra.')}else message.error(apiErrorMessage(e))}}
+ const hasConflict=preview.some(x=>(x.conflicts||[]).length)
+ return <Card title="S4-01 · Sinh thời khóa biểu tự động"><Form form={form} layout="inline" onFinish={doPreview} initialValues={{weekdays:[0,2,4],duration_minutes:120}}><Form.Item name="class_id" label="Lớp" rules={[{required:true}]}><Select style={{width:180}} options={classes.map(x=>({value:x.id,label:x.code}))}/></Form.Item><Form.Item name="start_date" label="Bắt đầu" rules={[{required:true}]}><DatePicker/></Form.Item><Form.Item name="weekdays" label="Thứ" rules={[{required:true}]}><Select mode="multiple" style={{width:260}} options={weekdayOptions}/></Form.Item><Form.Item name="start_time" label="Giờ" rules={[{required:true}]}><TimePicker format="HH:mm"/></Form.Item><Form.Item name="duration_minutes" label="Phút"><InputNumber min={15}/></Form.Item><Button type="primary" htmlType="submit">Xem trước</Button></Form>{hasConflict&&<Alert style={{marginTop:16}} type="warning" showIcon message="Có xung đột phòng/giảng viên trong bản xem trước."/>}<Table style={{marginTop:16}} rowKey="subject_session_id" dataSource={preview} columns={[{title:'Bài học',dataIndex:'lesson_topic'},{title:'Bắt đầu',dataIndex:'start_at'},{title:'Kết thúc',dataIndex:'end_at'},{title:'Xung đột',render:(_,r)=>(r.conflicts||[]).length?`${r.conflicts.length} lỗi`:'Không'}]}/><Space><Button type="primary" disabled={!preview.length||hasConflict} onClick={()=>void save(false)}>Xác nhận lưu</Button>{hasConflict&&<Button danger onClick={()=>void save(true)}>Quản lý xác nhận ghi đè</Button>}</Space></Card>
+}
