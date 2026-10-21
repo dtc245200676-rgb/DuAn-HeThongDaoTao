@@ -64,10 +64,13 @@ def create_interaction(
     ensure_lead_access(lead, context)
     if lead.status == "enrolled":
         raise HTTPException(409, "Lead đã nhập học nên không tiếp tục ghi nhật ký chăm sóc.")
+    content = data.content.strip()
+    if not content:
+        raise HTTPException(422, "Nội dung chăm sóc không được để trống.")
     row = LeadInteraction(
         lead_id=lead_id,
         interaction_type=data.interaction_type,
-        content=data.content.strip(),
+        content=content,
         occurred_at=data.occurred_at or utcnow(),
         reminder_at=data.reminder_at,
         created_by_user_id=context.user.id,
@@ -86,7 +89,12 @@ def reminders(
     stmt = (
         select(LeadInteraction)
         .join(Lead, Lead.id == LeadInteraction.lead_id)
-        .where(LeadInteraction.reminder_at.is_not(None), LeadInteraction.reminder_completed_at.is_(None))
+        .where(
+            LeadInteraction.reminder_at.is_not(None),
+            LeadInteraction.reminder_completed_at.is_(None),
+            # Once a lead has enrolled, pending sales follow-ups are no longer actionable.
+            Lead.status != "enrolled",
+        )
         .options(selectinload(LeadInteraction.created_by), selectinload(LeadInteraction.lead))
     )
     if admissions_only(context):
@@ -107,6 +115,8 @@ def complete_reminder(
     if not row:
         raise HTTPException(404, "Không tìm thấy lịch nhắc.")
     ensure_lead_access(row.lead, context)
+    if row.lead.status == "enrolled":
+        raise HTTPException(409, "Lead đã nhập học; lịch chăm sóc không còn cần xử lý.")
     if not row.reminder_at:
         raise HTTPException(409, "Tương tác này không có lịch nhắc.")
     row.reminder_completed_at = utcnow()

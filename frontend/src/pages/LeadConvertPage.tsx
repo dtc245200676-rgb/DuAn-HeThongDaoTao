@@ -1,4 +1,4 @@
-import { Button, Card, Form, Input, Modal, Select, Space, Table, Tag, message } from 'antd'
+import { Button, Card, Form, Input, Modal, Space, Table, Tag, message } from 'antd'
 import { useEffect, useState } from 'react'
 import { api, apiErrorMessage } from '../api/client'
 import type { LeadItem } from '../types'
