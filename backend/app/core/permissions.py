@@ -18,6 +18,8 @@ PERMISSIONS = {
     "leads.view": "Xem danh sách lead tuyển sinh",
     "leads.edit": "Tạo và cập nhật lead tuyển sinh",
     "leads.assign": "Phân công lead tuyển sinh",
+    "attendance.view": "Xem điểm danh",
+    "attendance.edit": "Thực hiện và chỉnh sửa điểm danh",
 }
 
 ROLE_DEFINITIONS = {
@@ -41,6 +43,7 @@ ROLE_DEFINITIONS = {
             "leads.view",
             "leads.edit",
             "leads.assign",
+            "attendance.view", "attendance.edit",
         ],
     },
     "teacher": {
@@ -52,6 +55,7 @@ ROLE_DEFINITIONS = {
             "grades.view",
             "grades.edit",
             "tuition.view",
+            "attendance.view", "attendance.edit",
         ],
     },
     "teaching_assistant": {
@@ -61,6 +65,7 @@ ROLE_DEFINITIONS = {
             "dashboard.view",
             "training.view",
             "grades.view",
+            "attendance.view",
         ],
     },
     "accountant": {
@@ -98,7 +103,7 @@ ROLE_DEFINITIONS = {
     "student": {
         "name": "Học viên",
         "description": "Xem thông tin học tập, điểm và học phí của bản thân.",
-        "permissions": ["dashboard.view", "training.view", "grades.view", "tuition.view"],
+        "permissions": ["dashboard.view", "training.view", "grades.view", "tuition.view", "attendance.view"],
     },
 }
 

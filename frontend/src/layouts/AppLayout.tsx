@@ -26,6 +26,15 @@ export default function AppLayout(){
   hasPermission('training.view')?{key:'/training/class-overview',icon:<BookOutlined/>,label:'S3 · Danh sách lớp'}:null,
   hasPermission('training.view')?{key:'/training/class-staff',icon:<TeamOutlined/>,label:'S3 · Phân công GV/TG'}:null,
   hasPermission('training.view')?{key:'/training/rooms',icon:<BookOutlined/>,label:'S3 · Phòng học'}:null,
+  hasPermission('training.view')?{key:'/training/timetable-generate',icon:<BookOutlined/>,label:'S4 · Sinh thời khóa biểu'}:null,
+  hasPermission('training.view')?{key:'/training/holidays',icon:<BookOutlined/>,label:'S4 · Ngày nghỉ lễ'}:null,
+  hasPermission('training.view')?{key:'/training/schedule-conflicts',icon:<BookOutlined/>,label:'S4 · Xung đột lịch'}:null,
+  hasPermission('training.view')?{key:'/training/schedule-changes',icon:<BookOutlined/>,label:'S4 · Sửa buổi học'}:null,
+  hasPermission('training.view')?{key:'/training/calendar',icon:<BookOutlined/>,label:'S4 · Lịch đào tạo'}:null,
+  hasPermission('training.view')?{key:'/my-schedule',icon:<BookOutlined/>,label:'S4 · Lịch học của tôi'}:null,
+  hasPermission('training.view')?{key:'/training/student-status',icon:<TeamOutlined/>,label:'S4 · Trạng thái học viên'}:null,
+  hasPermission('attendance.view')?{key:'/training/attendance',icon:<TeamOutlined/>,label:'S4 · Điểm danh'}:null,
+  hasPermission('training.view')?{key:'/absence-requests',icon:<BookOutlined/>,label:'S4 · Xin phép vắng'}:null,
   {key:'/change-password',icon:<KeyOutlined/>,label:'Đổi mật khẩu'}
  ].filter(Boolean) as {key:string;icon:React.ReactNode;label:string}[],[hasPermission])
  const menu=<Menu mode="inline" selectedKeys={[location.pathname]} items={items} onClick={({key})=>{navigate(key);setDrawerOpen(false)}}/>

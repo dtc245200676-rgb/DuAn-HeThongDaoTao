@@ -29,6 +29,16 @@ import RoomManagementPage from './pages/RoomManagementPage'
 import StudentRecordsPage from './pages/StudentRecordsPage'
 import TrainingManagementPage from './pages/TrainingManagementPage'
 import UserManagementPage from './pages/UserManagementPage'
+import TimetableGeneratePage from './pages/TimetableGeneratePage'
+import HolidayManagementPage from './pages/HolidayManagementPage'
+import ScheduleConflictsPage from './pages/ScheduleConflictsPage'
+import ScheduleChangesPage from './pages/ScheduleChangesPage'
+import ScheduleCalendarPage from './pages/ScheduleCalendarPage'
+import StudentSchedulePage from './pages/StudentSchedulePage'
+import StudentStatusPage from './pages/StudentStatusPage'
+import AttendancePage from './pages/AttendancePage'
+import AbsenceRequestsPage from './pages/AbsenceRequestsPage'
+
 
 export default function App() {
   return <ConfigProvider theme={{ token: { colorPrimary: '#1677ff', borderRadius: 8 } }}>
@@ -54,6 +64,15 @@ export default function App() {
           <Route path="/training/class-overview" element={<ClassOverviewPage />} />
           <Route path="/training/class-staff" element={<ClassStaffPage />} />
           <Route path="/training/rooms" element={<RoomManagementPage />} />
+          <Route path="/training/timetable-generate" element={<TimetableGeneratePage />} />
+          <Route path="/training/holidays" element={<HolidayManagementPage />} />
+          <Route path="/training/schedule-conflicts" element={<ScheduleConflictsPage />} />
+          <Route path="/training/schedule-changes" element={<ScheduleChangesPage />} />
+          <Route path="/training/calendar" element={<ScheduleCalendarPage />} />
+          <Route path="/my-schedule" element={<StudentSchedulePage />} />
+          <Route path="/training/student-status" element={<StudentStatusPage />} />
+          <Route path="/training/attendance" element={<AttendancePage />} />
+          <Route path="/absence-requests" element={<AbsenceRequestsPage />} />
         </Route>
         <Route element={<ProtectedRoute permission="leads.view" />}>
           <Route path="/admissions/leads" element={<LeadCrudPage />} />
