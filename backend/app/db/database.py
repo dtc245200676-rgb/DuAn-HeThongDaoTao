@@ -8,7 +8,7 @@ load_dotenv()
 
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "mysql+pymysql://root:@localhost:3306/he_thong_dao_tao?charset=utf8mb4",
+    "mysql+pymysql://root:@localhost:3306/he_thong_dao_tao_sprint4_test?charset=utf8mb4",
 )
 
 engine_kwargs = {"pool_pre_ping": True, "future": True}

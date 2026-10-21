@@ -20,9 +20,17 @@ class LeadStatusMove(BaseModel):
 
 class LeadInteractionCreate(BaseModel):
     interaction_type: Literal["call", "message", "meeting"]
-    content: str = Field(min_length=1)
+    content: str = Field(min_length=1, max_length=5000)
     occurred_at: Optional[datetime] = None
     reminder_at: Optional[datetime] = None
+
+    @field_validator("content")
+    @classmethod
+    def content_must_not_be_blank(cls, value: str) -> str:
+        value = value.strip()
+        if not value:
+            raise ValueError("Nội dung chăm sóc không được để trống.")
+        return value
 
 
 class ConvertLeadRequest(BaseModel):

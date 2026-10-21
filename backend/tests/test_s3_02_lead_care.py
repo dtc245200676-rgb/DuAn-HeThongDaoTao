@@ -35,3 +35,38 @@ def test_care_log_and_overdue_reminder(client, user_factory):
     done = client.patch(f"/api/s3/care/interactions/{interaction_id}/complete-reminder", headers=headers)
     assert done.status_code == 200
     assert client.get("/api/s3/care/reminders?overdue_only=true", headers=headers).json() == []
+
+
+def test_enrolled_lead_reminders_are_hidden(client, user_factory):
+    user_factory("care-enrolled@example.com", "Pass1234", "admissions", full_name="TVTS Care")
+    token = client.post("/api/auth/login", json={"email": "care-enrolled@example.com", "password": "Pass1234"}).json()["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
+    db = SessionLocal()
+    try:
+        user = db.scalar(select(User).where(User.email == "care-enrolled@example.com"))
+        lead = Lead(full_name="Khách đã nhập học", phone="0903333333", status="contacted", assignee_user_id=user.id)
+        db.add(lead)
+        db.commit()
+        db.refresh(lead)
+        lead_id = lead.id
+    finally:
+        db.close()
+
+    reminder = client.post(f"/api/s3/care/leads/{lead_id}/interactions", headers=headers, json={
+        "interaction_type": "call",
+        "content": "Đã tư vấn và hẹn gọi lại",
+        "reminder_at": (utcnow() - timedelta(hours=1)).isoformat(),
+    })
+    assert reminder.status_code == 200
+
+    db = SessionLocal()
+    try:
+        lead = db.get(Lead, lead_id)
+        lead.status = "enrolled"
+        db.commit()
+    finally:
+        db.close()
+
+    response = client.get("/api/s3/care/reminders?overdue_only=true", headers=headers)
+    assert response.status_code == 200
+    assert all(item["lead_id"] != lead_id for item in response.json())

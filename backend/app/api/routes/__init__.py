@@ -49,3 +49,4 @@ __all__ = [
     "schedule_changes_router", "schedule_calendar_router", "student_schedule_router", "student_status_router",
     "attendance_router", "absence_requests_router",
 ]
+

@@ -62,7 +62,7 @@ app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 
 @app.get("/")
 def home():
-    return {"message": "Backend đang hoạt động", "sprint": "Sprint 4"}
+    return {"message": "Backend đang hoạt động", "sprint": "Sprint 5"}
 
 
 @app.get("/health")
