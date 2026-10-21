@@ -11,6 +11,7 @@ from app.models.sprint3 import (
     StudentProfile,
     TrainingRoom,
 )
+from app.models.sprint5 import Assignment, AssignmentClass, AssignmentExtension, AssignmentSubmission
 from app.models.sprint4 import (
     AbsenceRequest, AcademicHoliday, AttendanceAuditLog, AttendanceRecord,
     ClassScheduleSession, ScheduleChangeHistory, StudentStatusHistory, UserNotification,
@@ -27,4 +28,5 @@ __all__ = [
     "StudentProfile", "ClassSubject", "ClassEnrollment", "ClassSubjectStaff", "TrainingRoom",
     "AcademicHoliday", "ClassScheduleSession", "ScheduleChangeHistory", "UserNotification",
     "StudentStatusHistory", "AttendanceRecord", "AttendanceAuditLog", "AbsenceRequest",
+    "Assignment", "AssignmentClass", "AssignmentExtension", "AssignmentSubmission",
 ]
