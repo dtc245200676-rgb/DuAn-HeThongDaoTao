@@ -15,7 +15,7 @@ from app.api.routes import (
     student_records_router, classes_manage_router, class_enrollments_router, class_overview_router,
     class_staff_router, rooms_router, sprint4_common_router, timetable_generate_router, academic_holidays_router,
     schedule_conflicts_router, schedule_changes_router, schedule_calendar_router, student_schedule_router,
-    student_status_router, attendance_router, absence_requests_router,
+    student_status_router, attendance_router, absence_requests_router, sprint5_router,
 )
 from app.db.database import SessionLocal
 from app.db.seed import seed_rbac
@@ -34,7 +34,7 @@ async def lifespan(_: FastAPI):
     yield
 
 
-app = FastAPI(title="He Thong Dao Tao CodeGym - Sprint 4", version="4.0.0", lifespan=lifespan)
+app = FastAPI(title="He Thong Dao Tao CodeGym - Sprint 5", version="5.0.0", lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
@@ -52,7 +52,7 @@ for router in [
     student_records_router, classes_manage_router, class_enrollments_router, class_overview_router,
     class_staff_router, rooms_router, sprint4_common_router, timetable_generate_router, academic_holidays_router,
     schedule_conflicts_router, schedule_changes_router, schedule_calendar_router, student_schedule_router,
-    student_status_router, attendance_router, absence_requests_router,
+    student_status_router, attendance_router, absence_requests_router, sprint5_router,
 ]:
     app.include_router(router)
 

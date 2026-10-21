@@ -47,6 +47,7 @@ __all__ = [
     "class_staff_router", "rooms_router",
     "sprint4_common_router", "timetable_generate_router", "academic_holidays_router", "schedule_conflicts_router",
     "schedule_changes_router", "schedule_calendar_router", "student_schedule_router", "student_status_router",
-    "attendance_router", "absence_requests_router",
+    "attendance_router", "absence_requests_router", "sprint5_router",
 ]
 
+from app.api.routes.sprint5 import router as sprint5_router
