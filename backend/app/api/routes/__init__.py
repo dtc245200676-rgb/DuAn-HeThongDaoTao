@@ -25,6 +25,17 @@ from app.api.routes.class_enrollments import router as class_enrollments_router
 from app.api.routes.class_overview import router as class_overview_router
 from app.api.routes.class_staff import router as class_staff_router
 from app.api.routes.rooms import router as rooms_router
+from app.api.routes.sprint4_common import router as sprint4_common_router
+from app.api.routes.timetable_generate import router as timetable_generate_router
+from app.api.routes.academic_holidays import router as academic_holidays_router
+from app.api.routes.schedule_conflicts import router as schedule_conflicts_router
+from app.api.routes.schedule_changes import router as schedule_changes_router
+from app.api.routes.schedule_calendar import router as schedule_calendar_router
+from app.api.routes.student_schedule import router as student_schedule_router
+from app.api.routes.student_status import router as student_status_router
+from app.api.routes.attendance import router as attendance_router
+from app.api.routes.absence_requests import router as absence_requests_router
+
 
 __all__ = [
     "auth_login_session_router", "auth_password_reset_router", "auth_change_password_router", "auth_activation_router",
@@ -34,4 +45,7 @@ __all__ = [
     "leads_assignment_search_router", "lead_funnel_router", "lead_care_router", "lead_convert_router",
     "student_records_router", "classes_manage_router", "class_enrollments_router", "class_overview_router",
     "class_staff_router", "rooms_router",
+    "sprint4_common_router", "timetable_generate_router", "academic_holidays_router", "schedule_conflicts_router",
+    "schedule_changes_router", "schedule_calendar_router", "student_schedule_router", "student_status_router",
+    "attendance_router", "absence_requests_router",
 ]
