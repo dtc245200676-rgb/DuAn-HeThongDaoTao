@@ -68,6 +68,8 @@ const routeLabels: Record<string, { title: string; group: string }> = {
   '/training/student-status': { title: 'Trạng thái học viên', group: 'Lịch & chuyên cần' },
   '/training/attendance': { title: 'Điểm danh', group: 'Lịch & chuyên cần' },
   '/absence-requests': { title: 'Xin phép vắng', group: 'Lịch & chuyên cần' },
+  '/s5/attendance': { title: 'Báo cáo chuyên cần', group: 'Bài tập & đánh giá' },
+  '/s5/assignments': { title: 'Bài tập', group: 'Bài tập & đánh giá' },
 }
 
 
@@ -101,6 +103,8 @@ const featureRouteMeta: Record<string, FeatureRouteMeta> = {
   '/training/student-status': { eyebrow: 'Lịch & chuyên cần', title: 'Trạng thái học viên', description: 'Ghi nhận bảo lưu, chuyển lớp, thôi học và theo dõi lịch sử thay đổi theo ngày hiệu lực.', tone: 'amber', icon: <TeamOutlined />, className: 'feature-route-student-status' },
   '/training/attendance': { eyebrow: 'Lịch & chuyên cần', title: 'Điểm danh', description: 'Điểm danh theo buổi học với trạng thái rõ ràng và thao tác nhanh cho giảng viên.', tone: 'amber', icon: <FileDoneOutlined />, className: 'feature-route-attendance' },
   '/absence-requests': { eyebrow: 'Lịch & chuyên cần', title: 'Xin phép vắng', description: 'Học viên gửi đơn xin phép và giảng viên xử lý kết quả ngay trong cùng một luồng.', tone: 'amber', icon: <FileTextOutlined />, className: 'feature-route-absence' },
+  '/s5/attendance': { eyebrow: 'Chuyên cần', title: 'Báo cáo chuyên cần', description: 'Theo dõi ma trận chuyên cần, cảnh báo vắng học và xuất báo cáo phục vụ quản lý.', tone: 'green', icon: <FileDoneOutlined />, className: 'feature-route-attendance-insights' },
+  '/s5/assignments': { eyebrow: 'Bài tập & đánh giá', title: 'Bài tập', description: 'Tạo bài, nộp bài, chấm điểm, gia hạn và theo dõi tiến độ học tập theo lớp.', tone: 'green', icon: <FileTextOutlined />, className: 'feature-route-assignments' },
 }
 
 const pagesWithOwnFeatureHero = new Set([
@@ -165,9 +169,11 @@ export default function AppLayout() {
       hasPermission('training.view') ? { key: '/training/student-status', icon: <TeamOutlined />, label: 'Trạng thái học viên' } : null,
       hasPermission('attendance.view') ? { key: '/training/attendance', icon: <FileDoneOutlined />, label: 'Điểm danh' } : null,
       hasPermission('training.view') ? { key: '/absence-requests', icon: <FileTextOutlined />, label: 'Xin phép vắng' } : null,
+      hasPermission('attendance.view') ? { key: '/s5/attendance', icon: <FileDoneOutlined />, label: 'Báo cáo chuyên cần' } : null,
     ])
 
     pushGroup('assessment', 'BÀI TẬP & ĐÁNH GIÁ', [
+      hasPermission('training.view') ? { key: '/s5/assignments', icon: <FileTextOutlined />, label: 'Bài tập' } : null,
     ])
 
     pushGroup('account', 'TÀI KHOẢN', [

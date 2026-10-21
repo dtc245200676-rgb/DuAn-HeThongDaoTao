@@ -7,6 +7,8 @@ import AppLayout from './layouts/AppLayout'
 import AccessDeniedPage from './pages/AccessDeniedPage'
 import ActivatePage from './pages/ActivatePage'
 import AbsenceRequestsPage from './pages/AbsenceRequestsPage'
+import AssignmentsPage from './pages/AssignmentsPage'
+import AttendanceInsightsPage from './pages/AttendanceInsightsPage'
 import AttendancePage from './pages/AttendancePage'
 import ChangePasswordPage from './pages/ChangePasswordPage'
 import ClassEnrollmentPage from './pages/ClassEnrollmentPage'
@@ -93,6 +95,8 @@ export default function App() {
           <Route path="/training/student-status" element={<StudentStatusPage />} />
           <Route path="/training/attendance" element={<AttendancePage />} />
           <Route path="/absence-requests" element={<AbsenceRequestsPage />} />
+          <Route path="/s5/attendance" element={<AttendanceInsightsPage />} />
+          <Route path="/s5/assignments" element={<AssignmentsPage />} />
         </Route>
         <Route element={<ProtectedRoute permission="leads.view" />}>
           <Route path="/admissions/leads" element={<LeadCrudPage />} />
